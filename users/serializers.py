@@ -24,3 +24,9 @@ class CustomUserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ("email", "phone_number", "is_staff", "is_active")
+
+
+class CustomUserShort(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("id", "email", "phone_number",)
