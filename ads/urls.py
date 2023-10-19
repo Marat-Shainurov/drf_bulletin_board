@@ -1,7 +1,8 @@
 from django.urls import path
 
 from ads.apps import AdsConfig
-from ads.views.ad import AdListView, AdCreateView, AdRetrieveView, AdUpdateView, AdDeleteView
+from ads.views import (AdListView, AdCreateView, AdRetrieveView, AdUpdateView, AdDeleteView, ReviewListView,
+                       ReviewDeleteView, ReviewCreateView, ReviewUpdateView, ReviewRetrieveView)
 
 app_name = AdsConfig.name
 
@@ -14,4 +15,9 @@ urlpatterns = [
     path('ads/delete/<int:pk>/', AdDeleteView.as_view(), name='ads_delete'),
 
     # reviews
+    path('reviews/', ReviewListView.as_view(), name='reviews_list'),
+    path('reviews/create/', ReviewCreateView.as_view(), name='reviews_create'),
+    path('reviews/get/<int:pk>/', ReviewRetrieveView.as_view(), name='reviews_get'),
+    path('reviews/update/<int:pk>/', ReviewUpdateView.as_view(), name='reviews_update'),
+    path('reviews/delete/<int:pk>/', ReviewDeleteView.as_view(), name='reviews_delete'),
 ]
