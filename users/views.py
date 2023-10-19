@@ -1,12 +1,14 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+from ads.pagination import BulletinBoardPagination
 from users.models import CustomUser
 from users.serializers import CustomUserCreateSerializer, CustomerUserBaseSerializer, CustomUserUpdateSerializer
 
 
 class CustomerUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
+    pagination_class = BulletinBoardPagination
 
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == 'POST':

@@ -1,6 +1,7 @@
 from rest_framework import generics
 
 from ads.models import Review
+from ads.pagination import BulletinBoardPagination
 from ads.serializers import ReviewCreateUpdateSerializer, ReviewBaseSerializer
 
 
@@ -19,6 +20,7 @@ class ReviewRetrieveView(generics.RetrieveAPIView):
 class ReviewListView(generics.ListAPIView):
     serializer_class = ReviewBaseSerializer
     queryset = Review.objects.all()
+    pagination_class = BulletinBoardPagination
 
 
 class ReviewUpdateView(generics.UpdateAPIView):

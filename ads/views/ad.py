@@ -1,6 +1,7 @@
 from rest_framework import generics
 
 from ads.models import Ad
+from ads.pagination import BulletinBoardPagination
 from ads.serializers import AdCreateUpdateSerializer, AdBaseSerializer
 
 
@@ -19,6 +20,7 @@ class AdRetrieveView(generics.RetrieveAPIView):
 class AdListView(generics.ListAPIView):
     serializer_class = AdBaseSerializer
     queryset = Ad.objects.all()
+    pagination_class = BulletinBoardPagination
 
 
 class AdUpdateView(generics.UpdateAPIView):
