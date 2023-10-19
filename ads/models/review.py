@@ -7,7 +7,7 @@ from users.models import CustomUser
 class Review(models.Model):
     text = models.TextField(verbose_name='contents')
     author = models.ForeignKey(CustomUser, verbose_name='author', on_delete=models.CASCADE)
-    ad = models.ForeignKey(Ad, verbose_name='reviewed ad', on_delete=models.CASCADE)
+    ad = models.ForeignKey(Ad, verbose_name='reviewed ad', on_delete=models.CASCADE, related_name='ad_reviews')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='creation date')
 
     class Meta:

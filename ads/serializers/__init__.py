@@ -1,4 +1,4 @@
-from .ad import AdCreateUpdateSerializer, AdBaseSerializer
 from .review import ReviewCreateUpdateSerializer, ReviewBaseSerializer
+from .ad import AdCreateUpdateSerializer, AdBaseSerializer
 
-__all__ = ['AdCreateUpdateSerializer', 'AdBaseSerializer', 'ReviewCreateUpdateSerializer', 'ReviewBaseSerializer', ]
+__all__ = ['ReviewCreateUpdateSerializer', 'ReviewBaseSerializer', 'AdCreateUpdateSerializer', 'AdBaseSerializer',]
