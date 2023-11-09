@@ -59,6 +59,17 @@ class AdsTestCase(APITestCase):
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(response.json()['id'], self.test_ad.pk)
 
+    def test_get_ad_with_reviews(self):
+        review_1 = {"text": "Review one", "ad": self.test_ad.pk, 'author': self.test_user}
+        review_2 = {"text": "Review two", "ad": self.test_ad.pk, 'author': self.test_user}
+        self.test_ad.ad_reviews.create(**review_1)
+        self.test_ad.ad_reviews.create(**review_2)
+        response = self.client.get(reverse('ads:ads_get', kwargs={'pk': self.test_ad.pk}))
+        self.assertIsInstance(response.json()['ad_reviews'], list)
+        self.assertEquals(len(response.json()['ad_reviews']), 2)
+        self.assertEquals(response.json()['ad_reviews'][0]['text'], review_1['text'])
+        self.assertEquals(response.json()['ad_reviews'][1]['text'], review_2['text'])
+
     def test_update_ad(self):
         data_to_update = {"title": "Updated", "price": 2000, "description": "updated description"}
         response = self.client.put(reverse('ads:ads_update', kwargs={'pk': self.test_ad.pk}), data=data_to_update)
@@ -82,3 +93,8 @@ class AdsTestCase(APITestCase):
     def test_delete_ad(self):
         response = self.client.delete(reverse('ads:ads_delete', kwargs={'pk': self.test_ad.pk}))
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
+
+# todo:
+#  Add password_reset
+#  Add dockerfiles.
+#  Add readme file
