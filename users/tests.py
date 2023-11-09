@@ -1,3 +1,4 @@
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -12,7 +13,7 @@ class CustomUserTestCase(APITestCase):
         self.client.force_authenticate(user=self.test_user)
 
     def test_retrieve_user(self):
-        response = self.client.get(f'http://localhost:8000/users/{self.test_user.pk}/')
+        response = self.client.get(reverse('users:users-detail', kwargs={'pk': self.test_user.pk}))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(response.json()['id'], self.test_user.pk)
         self.assertEquals(response.json()['email'], self.test_user.email)
@@ -20,7 +21,7 @@ class CustomUserTestCase(APITestCase):
 
     def test_create_user(self):
         user_data = {'email': 'test_create@mail.com', 'password': 'qweasd123qwe', 'phone_number': '+79998336868'}
-        response = self.client.post('http://localhost:8000/users/', data=user_data)
+        response = self.client.post(reverse('users:users-list'), data=user_data)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         self.assertEquals(response.json()['email'], user_data['email'])
         self.assertEquals(response.json()['phone_number'], user_data['phone_number'])
@@ -30,7 +31,7 @@ class CustomUserTestCase(APITestCase):
 
     def test_create_user_wrong_email(self):
         user_data = {'email': 'wrong.com', 'password': 'qweasd123qwe', 'phone_number': '+79998336868'}
-        response = self.client.post('http://localhost:8000/users/', data=user_data)
+        response = self.client.post(reverse('users:users-list'), data=user_data)
         self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEquals(response.json()['email'], ['Enter a valid email address.'])
         valid_data = user_data.copy()
@@ -40,7 +41,7 @@ class CustomUserTestCase(APITestCase):
 
     def test_create_user_invalid_phone(self):
         user_data = {'email': 'test_invalid@email.com', 'password': 'qweasd123qwe', 'phone_number': '9998336868'}
-        response = self.client.post('http://localhost:8000/users/', data=user_data)
+        response = self.client.post(reverse('users:users-list'), data=user_data)
         self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEquals(response.json()['phone_number'], ['The phone number entered is not valid.'])
         valid_data = user_data.copy()
@@ -50,8 +51,8 @@ class CustomUserTestCase(APITestCase):
 
     def test_list_users(self):
         user_data = {'email': 'test_two@mail.com', 'password': 'qweasd123qwe', 'phone_number': '+79998336868'}
-        self.client.post('http://localhost:8000/users/', data=user_data)
-        response_get = self.client.get('http://localhost:8000/users/')
+        self.client.post(reverse('users:users-list'), data=user_data)
+        response_get = self.client.get(reverse('users:users-list'))
         self.assertEquals(response_get.status_code, status.HTTP_200_OK)
         self.assertEquals(CustomUser.objects.all().count(), 2)
         self.assertEquals(response_get.json()['results'][0]['email'], self.test_user.email)
@@ -59,19 +60,21 @@ class CustomUserTestCase(APITestCase):
 
     def test_patch_users(self):
         user_data = {'email': 'updated@mail.com'}
-        response = self.client.patch(f'http://localhost:8000/users/{self.test_user.pk}/', data=user_data)
+        response = self.client.patch(
+            reverse('users:users-detail', kwargs={'pk': self.test_user.pk}), data=user_data)
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(response.json()['email'], 'updated@mail.com')
 
     def test_put_user(self):
         user_data = {
             'email': 'updated@mail.com', 'phone_number': '+905335250000', 'is_active': False, 'is_staff': False}
-        response = self.client.put(f'http://localhost:8000/users/{self.test_user.pk}/', data=user_data)
+        response = self.client.patch(
+            reverse('users:users-detail', kwargs={'pk': self.test_user.pk}), data=user_data)
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(response.json()['email'], 'updated@mail.com')
         self.assertEquals(response.json()['is_active'], False)
 
     def test_delete_user(self):
-        response = self.client.delete(f'http://localhost:8000/users/{self.test_user.pk}/')
+        response = self.client.delete(reverse('users:users-detail', kwargs={'pk': self.test_user.pk}))
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEquals(CustomUser.objects.all().count(), 0)
