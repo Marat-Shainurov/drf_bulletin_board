@@ -7,6 +7,7 @@ class IsOwner(BasePermission):
     Allows access only to an object's owner.
     """
     message = 'You are not the owner of the ad'
+
     def has_object_permission(self, request, view, obj):
         if request.user == obj.author:
             return True
