@@ -8,7 +8,7 @@ from users.serializers import CustomUserShort
 class AdCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
-        fields = ('title', 'price', 'description',)
+        fields = ('title', 'price', 'description', 'preview',)
 
 
 class AdBaseSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class AdBaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
-        fields = ('id', 'title', 'price', 'description', 'author', 'created_at', 'ad_reviews',)
+        fields = ('id', 'title', 'price', 'description', 'preview', 'author', 'created_at', 'ad_reviews',)
 
 
 class AdSerializerShort(serializers.ModelSerializer):
