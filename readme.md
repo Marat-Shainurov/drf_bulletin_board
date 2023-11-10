@@ -4,7 +4,7 @@ The project is created as a backend part of an online bulletin board with advert
 Main stack and tools: Djangorestframework, Postgresql, unittest, docker, djangorestframework-simplejwt.
 
 # Install and usage
-1. Clone the project from ___ to your local machine.
+1. Clone the project from https://github.com/Marat-Shainurov/drf_bulletin_board to your local machine.
 
 2. Build a new image and run the project container from the root project directory:
    - docker-compose build
@@ -46,8 +46,8 @@ You can load the fixture with several testing objects:
 
 2. *users* - users app.
    - CustomUser - customized User model.
-   - UersManager class is overridden and customized (./users/manager.py)
-   - Admin interface is overridden and customized. (./users/admin.py)
+   - UserManager class is overridden and customized (./users/manager.py)
+   - The admin site is also overridden and customized. (./users/admin.py)
 
 # Testing
 -All the endpoints are covered by unittests in /<app>/tests.py \
