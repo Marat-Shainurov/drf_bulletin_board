@@ -26,16 +26,17 @@ You can load the fixture with several testing objects:
          "email": "m_shaynurov@outlook.com",
          "password": "123"
        }
-     - manager:
+     - admin:
+        {
+          "email": "test_admin@mail.ru",
+          "password": "123"
+        }
+     - common user:
        {
          "email": "test_user@mail.ru",
          "password": "123"
        }
-     - common user:
-       {
-         "email": "test_admin@mail.ru",
-         "password": "123"
-       }
+
 
 # Project structure and models
 
